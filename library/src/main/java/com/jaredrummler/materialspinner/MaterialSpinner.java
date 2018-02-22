@@ -508,6 +508,11 @@ public class MaterialSpinner extends TextView {
     popupWindow.setHeight(calculatePopupWindowHeight());
   }
 
+  public void setDropdownWidth(int width)
+  {
+    popupWindow.setWidth(width);
+  }
+
   private int calculatePopupWindowHeight() {
     if (adapter == null) {
       return WindowManager.LayoutParams.WRAP_CONTENT;
