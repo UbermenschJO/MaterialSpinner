@@ -226,7 +226,9 @@ public class MaterialSpinner extends TextView {
     Rect bounds = new Rect();
     Paint textPaint = getPaint();
     textPaint.getTextBounds(longestItem, 0, longestItem.length(), bounds);
-    return bounds.width();
+    int w = bounds.width();
+    int pw = popupWindow.getWidth();
+    return w > pw ? w : pw;
   }
 
   @Override public boolean onTouchEvent(@NonNull MotionEvent event) {
