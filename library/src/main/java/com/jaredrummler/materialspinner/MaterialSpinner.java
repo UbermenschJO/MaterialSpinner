@@ -200,7 +200,7 @@ public class MaterialSpinner extends TextView {
   }
 
   @Override protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
-    popupWindow.setWidth(MeasureSpec.getSize(widthMeasureSpec));
+//    popupWindow.setWidth(MeasureSpec.getSize(widthMeasureSpec));
 //    popupWindow.setWidth(WindowManager.LayoutParams.WRAP_CONTENT);
     popupWindow.setHeight(calculatePopupWindowHeight());
     if (adapter != null) {
@@ -213,10 +213,11 @@ public class MaterialSpinner extends TextView {
         }
       }
       setText(longestItem);
+      popupWindow.setWidth(calculatePopupWindowWidthByLongestItem(longestItem));
       super.onMeasure(widthMeasureSpec, heightMeasureSpec);
       setText(currentText);
-      popupWindow.setWidth(calculatePopupWindowWidthByLongestItem(longestItem));
     } else {
+      popupWindow.setWidth(MeasureSpec.getSize(widthMeasureSpec));
       super.onMeasure(widthMeasureSpec, heightMeasureSpec);
     }
   }
