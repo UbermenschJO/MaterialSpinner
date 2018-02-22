@@ -212,8 +212,8 @@ public class MaterialSpinner extends TextView {
           longestItem = itemText;
         }
       }
+      popupWindow.setWidth(calculatePopupWindowWidthByLongestItem(longestItem, widthMeasureSpec));
       setText(longestItem);
-      popupWindow.setWidth(calculatePopupWindowWidthByLongestItem(longestItem));
       super.onMeasure(widthMeasureSpec, heightMeasureSpec);
       setText(currentText);
     } else {
@@ -222,13 +222,13 @@ public class MaterialSpinner extends TextView {
     }
   }
 
-  private int calculatePopupWindowWidthByLongestItem(String longestItem)
+  private int calculatePopupWindowWidthByLongestItem(String longestItem, int widthMeasureSpec)
   {
     Rect bounds = new Rect();
     Paint textPaint = getPaint();
     textPaint.getTextBounds(longestItem, 0, longestItem.length(), bounds);
     int w = bounds.width();
-    int pw = popupWindow.getWidth();
+    int pw = MeasureSpec.getSize(widthMeasureSpec);
     return w > pw ? w : pw;
   }
 
