@@ -22,7 +22,9 @@ import android.content.Context;
 import android.content.res.Resources;
 import android.content.res.TypedArray;
 import android.graphics.Color;
+import android.graphics.Paint;
 import android.graphics.PorterDuff;
+import android.graphics.Rect;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.StateListDrawable;
@@ -44,6 +46,7 @@ import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.PopupWindow;
 import android.widget.TextView;
+
 import java.lang.reflect.Method;
 import java.util.Arrays;
 import java.util.List;
@@ -197,8 +200,8 @@ public class MaterialSpinner extends TextView {
   }
 
   @Override protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
-//    popupWindow.setWidth(MeasureSpec.getSize(widthMeasureSpec));
-    popupWindow.setWidth(WindowManager.LayoutParams.WRAP_CONTENT);
+    popupWindow.setWidth(MeasureSpec.getSize(widthMeasureSpec));
+//    popupWindow.setWidth(WindowManager.LayoutParams.WRAP_CONTENT);
     popupWindow.setHeight(calculatePopupWindowHeight());
     if (adapter != null) {
       CharSequence currentText = getText();
@@ -212,9 +215,18 @@ public class MaterialSpinner extends TextView {
       setText(longestItem);
       super.onMeasure(widthMeasureSpec, heightMeasureSpec);
       setText(currentText);
+      popupWindow.setWidth(calculatePopupWindowWidthByLongestItem(longestItem));
     } else {
       super.onMeasure(widthMeasureSpec, heightMeasureSpec);
     }
+  }
+
+  private int calculatePopupWindowWidthByLongestItem(String longestItem)
+  {
+    Rect bounds = new Rect();
+    Paint textPaint = getPaint();
+    textPaint.getTextBounds(longestItem, 0, longestItem.length(), bounds);
+    return bounds.width();
   }
 
   @Override public boolean onTouchEvent(@NonNull MotionEvent event) {
