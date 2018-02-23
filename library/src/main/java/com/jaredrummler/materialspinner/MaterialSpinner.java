@@ -200,8 +200,11 @@ public class MaterialSpinner extends TextView {
   }
 
   @Override protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
-//    popupWindow.setWidth(MeasureSpec.getSize(widthMeasureSpec));
-//    popupWindow.setWidth(WindowManager.LayoutParams.WRAP_CONTENT);
+    if(isDropdownWrapContentWidth)
+      popupWindow.setWidth(dropdownMaxWidth);
+    else
+      popupWindow.setWidth(MeasureSpec.getSize(widthMeasureSpec));
+
     popupWindow.setHeight(calculatePopupWindowHeight());
     if (adapter != null) {
       CharSequence currentText = getText();
@@ -212,19 +215,10 @@ public class MaterialSpinner extends TextView {
           longestItem = itemText;
         }
       }
-
-      int maxWidth = meathureWidthByChilds() + getPaddingLeft() + getPaddingRight();
-      popupWindow.setWidth(maxWidth);
-
-//      popupWindow.setWidth(calculatePopupWindowWidthByLongestItem(longestItem, widthMeasureSpec));
       setText(longestItem);
       super.onMeasure(widthMeasureSpec, heightMeasureSpec);
       setText(currentText);
-//      setText(longestItem);
-//      super.onMeasure(MeasureSpec.makeMeasureSpec(maxWidth, MeasureSpec.EXACTLY), heightMeasureSpec);
-//      setText(currentText);
     } else {
-      popupWindow.setWidth(MeasureSpec.getSize(widthMeasureSpec));
       super.onMeasure(widthMeasureSpec, heightMeasureSpec);
     }
   }
@@ -532,6 +526,15 @@ public class MaterialSpinner extends TextView {
   public void setDropdownWidth(int width)
   {
     popupWindow.setWidth(width);
+  }
+
+  private boolean isDropdownWrapContentWidth = false;
+  private int dropdownMaxWidth;
+  public void setDropdownWidth()
+  {
+    isDropdownWrapContentWidth = true;
+    dropdownMaxWidth = meathureWidthByChilds() + getPaddingLeft() + getPaddingRight();
+    popupWindow.setWidth(dropdownMaxWidth);
   }
 
   private int calculatePopupWindowHeight() {
