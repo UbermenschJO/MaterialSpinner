@@ -212,14 +212,33 @@ public class MaterialSpinner extends TextView {
           longestItem = itemText;
         }
       }
-      popupWindow.setWidth(calculatePopupWindowWidthByLongestItem(longestItem, widthMeasureSpec));
+//      popupWindow.setWidth(calculatePopupWindowWidthByLongestItem(longestItem, widthMeasureSpec));
+//      setText(longestItem);
+//      super.onMeasure(widthMeasureSpec, heightMeasureSpec);
+//      setText(currentText);
+
+      int maxWidth = meathureWidthByChilds() + getPaddingLeft() + getPaddingRight();
+      popupWindow.setWidth(maxWidth);
       setText(longestItem);
-      super.onMeasure(widthMeasureSpec, heightMeasureSpec);
+      super.onMeasure(MeasureSpec.makeMeasureSpec(maxWidth, MeasureSpec.EXACTLY), heightMeasureSpec);
       setText(currentText);
     } else {
       popupWindow.setWidth(MeasureSpec.getSize(widthMeasureSpec));
       super.onMeasure(widthMeasureSpec, heightMeasureSpec);
     }
+  }
+
+  public int meathureWidthByChilds() {
+    int maxWidth = 0;
+    View view = null;
+    for (int i = 0; i < adapter.getCount(); i++) {
+      view = adapter.getView(i, view, listView);
+      view.measure(MeasureSpec.UNSPECIFIED, MeasureSpec.UNSPECIFIED);
+      if (view.getMeasuredWidth() > maxWidth){
+        maxWidth = view.getMeasuredWidth();
+      }
+    }
+    return maxWidth;
   }
 
   private int calculatePopupWindowWidthByLongestItem(String longestItem, int widthMeasureSpec)
