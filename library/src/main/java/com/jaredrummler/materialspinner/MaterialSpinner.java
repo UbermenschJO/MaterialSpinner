@@ -212,16 +212,17 @@ public class MaterialSpinner extends TextView {
           longestItem = itemText;
         }
       }
-//      popupWindow.setWidth(calculatePopupWindowWidthByLongestItem(longestItem, widthMeasureSpec));
-//      setText(longestItem);
-//      super.onMeasure(widthMeasureSpec, heightMeasureSpec);
-//      setText(currentText);
 
       int maxWidth = meathureWidthByChilds() + getPaddingLeft() + getPaddingRight();
       popupWindow.setWidth(maxWidth);
+
+//      popupWindow.setWidth(calculatePopupWindowWidthByLongestItem(longestItem, widthMeasureSpec));
       setText(longestItem);
-      super.onMeasure(MeasureSpec.makeMeasureSpec(maxWidth, MeasureSpec.EXACTLY), heightMeasureSpec);
+      super.onMeasure(widthMeasureSpec, heightMeasureSpec);
       setText(currentText);
+//      setText(longestItem);
+//      super.onMeasure(MeasureSpec.makeMeasureSpec(maxWidth, MeasureSpec.EXACTLY), heightMeasureSpec);
+//      setText(currentText);
     } else {
       popupWindow.setWidth(MeasureSpec.getSize(widthMeasureSpec));
       super.onMeasure(widthMeasureSpec, heightMeasureSpec);
